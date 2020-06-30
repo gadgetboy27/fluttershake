@@ -19,11 +19,15 @@ class App extends StatelessWidget {
             return CupertinoApp(
               home:Login(),
               onGenerateRoute: Routes.cupertinoRoutes,
+              theme: CupertinoThemeData(
+                scaffoldBackgroundColor: Colors.white
+              )
             );
           } else {
             return MaterialApp(
               home: Login(),
               onGenerateRoute: Routes.materialRoutes,
+              theme: ThemeData(scaffoldBackgroundColor: Colors.white)
             );
           }
         }
