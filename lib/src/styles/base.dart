@@ -6,9 +6,9 @@ import 'package:fluttershake/src/styles/colors.dart';
 abstract class BaseStyles{
 
 
-  static double get borderRadius=> 20.0;
+  static double get borderRadius=> 25.0;
 
-  static double get borderWidth=> 2.0;
+  static double get borderWidth=> 1.0;
 
   static double get listFieldHorizontal => 25.0;
 

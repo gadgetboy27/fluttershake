@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttershake/src/styles/base.dart';
+import 'package:fluttershake/src/styles/text.dart';
 import 'package:fluttershake/src/widgets/button.dart';
+import 'package:fluttershake/src/widgets/social_button.dart';
 import 'dart:io';
 import 'package:fluttershake/src/widgets/textfield.dart';
 
@@ -55,6 +59,42 @@ class Login extends StatelessWidget {
                 obscureText: true,
               ),
               AppButton(buttonText: 'Login',buttonType: ButtonType.LightGray,),
+              SizedBox(height: 6.0),
+              Center(child: Text('Or',style: TextStyles.suggestion),),
+              SizedBox(height: 6.0),
+              Padding(
+                padding: BaseStyles.listPadding,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    AppSocialButton(socialType: SocialType.Facebook,),
+                    SizedBox(width: 6.0),
+                    AppSocialButton(socialType: SocialType.Google,),
+                    SizedBox(width: 6.0),
+                    AppSocialButton(socialType: SocialType.Apple,),
+                    SizedBox(width: 6.0),
+                    AppSocialButton(socialType: SocialType.Linkedin),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: BaseStyles.listPadding,
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: 'New Here? ',
+                    style: TextStyles.body,
+                    children:  [
+                      TextSpan(
+                        text: 'Signup',
+                        style: TextStyles.link,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Navigator.pushNamed(context, '/signup')
+                      )
+                    ]
+                  )
+                ),
+              )
             ],
           );
         }

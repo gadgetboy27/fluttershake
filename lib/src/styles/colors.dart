@@ -14,5 +14,16 @@ abstract class AppColors {
 
   static Color get red=> const Color(0xFFee5253);
 
-  static Color green()=> const Color(0xFF3b7d02);
+  static Color get green=> const Color(0xFF3b7d02);
+
+  static Color get facebook=> const Color(0xFF3b5998);
+
+  static Color get google=> const Color(0xFF4285f4);
+
+  static Color get apple=> const Color(0xFF3b7d02);
+
+  static Color get linkedin=> const Color(0xFF00a0dc);
+
+  static Color get twitter=> const Color(0xFF1da1f2);
+
 }
