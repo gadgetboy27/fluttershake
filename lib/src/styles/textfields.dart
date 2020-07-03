@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttershake/src/styles/colors.dart';
 import 'package:fluttershake/src/styles/text.dart';
-
 import 'package:fluttershake/src/styles/base.dart';
 
 abstract class TextFieldStyles {
-  static double get textBoxHorizontal => 25.0;
+  static double get textBoxHorizontal => BaseStyles.listFieldHorizontal;
 
-  static double get textBoxVertical => 10.0;
+  static double get textBoxVertical => BaseStyles.listFieldVertical;
 
   static TextStyle get text => TextStyles.body;
 
@@ -26,7 +25,7 @@ abstract class TextFieldStyles {
     );
   }
 
-  static TextAlign get textAlign => TextAlign.left;
+  static TextAlign get textAlign => TextAlign.center;
 
   static BoxDecoration get cupertinoDecoration {
     return BoxDecoration(
