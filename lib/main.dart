@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttershake/src/services/app.dart';
+import 'package:fluttershake/src/app.dart';
 
 
 
