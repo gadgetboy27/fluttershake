@@ -30,7 +30,18 @@ abstract class TextFieldStyles {
   static BoxDecoration get cupertinoDecoration {
     return BoxDecoration(
         border: Border.all(
-            color: AppColors.darkblue, width: BaseStyles.borderWidth),
+            color: AppColors.darkblue, 
+            width: BaseStyles.borderWidth,
+          ),
+        borderRadius: BorderRadius.circular(BaseStyles.borderRadius));
+  }
+
+  static BoxDecoration get cupertinoErrorDecoration {
+    return BoxDecoration(
+        border: Border.all(
+            color: AppColors.red, 
+            width: BaseStyles.borderWidth,
+          ),
         borderRadius: BorderRadius.circular(BaseStyles.borderRadius));
   }
 
@@ -42,6 +53,7 @@ abstract class TextFieldStyles {
       hintStyle: TextFieldStyles.placeholder,
         border: InputBorder.none,
         errorText: errorText,
+        errorStyle: TextStyles.error,
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
             color: AppColors.darkblue, width: BaseStyles.borderWidth),

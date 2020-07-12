@@ -1,30 +1,39 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fluttershake/src/styles/colors.dart';
 
-abstract class BaseStyles{
+abstract class BaseStyles {
+  static double get borderRadius => 25.0;
 
-
-  static double get borderRadius=> 25.0;
-
-  static double get borderWidth=> 1.0;
+  static double get borderWidth => 1.0;
 
   static double get listFieldHorizontal => 25.0;
 
   static double get listFieldVertical => 10.0;
 
+  static double get animationOffset => 3.0;
+
   static EdgeInsets get listPadding {
-    return EdgeInsets.symmetric(horizontal: listFieldHorizontal, vertical: listFieldVertical);  
-    }
+    return EdgeInsets.symmetric(
+        horizontal: listFieldHorizontal, vertical: listFieldVertical);
+  }
 
   static List<BoxShadow> get boxShadow {
     return [
       BoxShadow(
         color: AppColors.darkgray.withOpacity(.5),
         offset: Offset(1.0, 2.0),
-        blurRadius: 2.0,)
+        blurRadius: 2.0,
+      )
     ];
   }
-  
+
+  static List<BoxShadow> get boxShadowPressed {
+    return [
+      BoxShadow(
+        color: AppColors.darkgray.withOpacity(.5),
+        offset: Offset(1.0, 1.0),
+        blurRadius: 1.0,
+      )
+    ];
+  }
 }

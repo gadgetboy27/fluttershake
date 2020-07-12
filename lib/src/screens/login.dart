@@ -73,9 +73,14 @@ class Login extends StatelessWidget {
             );
           }
         ),
-        AppButton(
-          buttonText: 'Login',
-          buttonType: ButtonType.LightGray,
+        StreamBuilder<bool>(
+          stream: authBloc.isValid,
+          builder: (context, snapshot) {
+            return AppButton(
+              buttonText: 'Login',
+              buttonType: (snapshot.data==true)?ButtonType.DarkGray:ButtonType.Disabled,
+            );
+          }
         ),
         SizedBox(height: 6.0),
         Center(
