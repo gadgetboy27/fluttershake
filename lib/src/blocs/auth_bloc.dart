@@ -1,20 +1,24 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttershake/src/models/user.dart';
+import 'package:fluttershake/src/services/firestore_service.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 import 'dart:async';
 
 final RegExp regExpEmail = RegExp(
-    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
-    );
+    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
 
 class AuthBloc {
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirsestoreService _firsestoreService = FirsestoreService();
 
   //Get Data
   Stream<String> get email => _email.stream.transform(validateEmail);
   Stream<String> get password => _password.stream.transform(validatePassword);
-  Stream<bool> get isValid => CombineLatestStream.combine2(email,password,(email,password)=>true);
+  Stream<bool> get isValid =>
+      CombineLatestStream.combine2(email, password, (email, password) => true);
 
   //Set Data
   Function(String) get changeEmail => _email.sink.add;
@@ -27,8 +31,7 @@ class AuthBloc {
 
   //Transformers
   final validateEmail =
-      StreamTransformer<String,String>.fromHandlers(handleData: (
-        email, sink) {
+      StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
     if (regExpEmail.hasMatch(email.trim())) {
       sink.add(email.trim());
     } else {
@@ -36,13 +39,26 @@ class AuthBloc {
     }
   });
 
-  final validatePassword =
-      StreamTransformer<String,String>.fromHandlers(handleData: (
-        password, sink){
-    if (password.length>=8){
+  final validatePassword = StreamTransformer<String, String>.fromHandlers(
+      handleData: (password, sink) {
+    if (password.length >= 8) {
       sink.add(password.trim());
     } else {
       sink.addError('Password Must be 8 Char in Length');
     }
   });
+
+  //Functions
+
+  signupEmail() async {
+    print('Signup up with username and password');
+    try {
+      AuthResult authResult = await _auth.createUserWithEmailAndPassword(
+          email: _email.value.trim(), password: _password.value.trim());
+      var user = User(userId: authResult.user.uid, email: _email.value.trim());
+      await _firsestoreService.addUser(user);
+    } catch (error) {
+      print(error);
+    }
+  }
 }

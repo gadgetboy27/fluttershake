@@ -80,10 +80,11 @@ class Signup extends StatelessWidget {
           builder: (context, snapshot) {
             return AppButton(
               buttonText: 'Signup',
-              buttonType: (snapshot.data==true)?ButtonType.DarkGray:ButtonType.Disabled,
+              buttonType: (snapshot.data==true)?ButtonType.LightGray:ButtonType.Disabled,onPressed: authBloc.signupEmail,
             );
           }
         ),
+              SizedBox(height: 6.0,),
               Center(child: Text('Or',style: TextStyles.suggestion),),
               SizedBox(height: 6.0),
               Padding(

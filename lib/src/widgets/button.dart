@@ -7,8 +7,9 @@ import 'package:fluttershake/src/styles/text.dart';
 class AppButton extends StatefulWidget {
   final String buttonText;
   final ButtonType buttonType;
+  final void Function() onPressed;
 
-  AppButton({@required this.buttonText, this.buttonType});
+  AppButton({@required this.buttonText, this.buttonType, this.onPressed});
 
   @override
   _AppButtonState createState() => _AppButtonState();
@@ -62,23 +63,24 @@ class _AppButtonState extends State<AppButton> {
           decoration: BoxDecoration(
             color: buttonColor,
             borderRadius: BorderRadius.circular(BaseStyles.borderRadius),
-            boxShadow: pressed?BaseStyles.boxShadowPressed:BaseStyles.boxShadow,
+            boxShadow:
+                pressed ? BaseStyles.boxShadowPressed : BaseStyles.boxShadow,
           ),
           child: Center(child: Text(widget.buttonText, style: fontStyle)),
         ),
         onTapDown: (details) {
           setState(() {
-           if (widget.buttonType!=ButtonType.Disabled) pressed = !pressed;
+            if (widget.buttonType != ButtonType.Disabled) pressed = !pressed;
           });
         },
         onTapUp: (details) {
           setState(() {
-            if (widget.buttonType!=ButtonType.Disabled)pressed = !pressed;
+            if (widget.buttonType != ButtonType.Disabled) pressed = !pressed;
           });
         },
-        onTap:(){
-          if (widget.buttonType!=ButtonType.Disabled){
-            
+        onTap: () {
+          if (widget.buttonType != ButtonType.Disabled) {
+            widget.onPressed();
           }
         },
       ),
