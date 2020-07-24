@@ -11,6 +11,7 @@ final RegExp regExpEmail = RegExp(
 class AuthBloc {
   final _email = BehaviorSubject<String>();
   final _password = BehaviorSubject<String>();
+  final _user = BehaviorSubject<User>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirsestoreService _firsestoreService = FirsestoreService();
 
@@ -19,14 +20,17 @@ class AuthBloc {
   Stream<String> get password => _password.stream.transform(validatePassword);
   Stream<bool> get isValid =>
       CombineLatestStream.combine2(email, password, (email, password) => true);
-
+  Stream<User> get user => _user.stream;
   //Set Data
   Function(String) get changeEmail => _email.sink.add;
   Function(String) get changePassword => _password.sink.add;
 
+  get sink => null;
+
   dispose() {
     _email.close();
     _password.close();
+    _user.close();
   }
 
   //Transformers
@@ -51,14 +55,36 @@ class AuthBloc {
   //Functions
 
   signupEmail() async {
-    print('Signup up with username and password');
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(
           email: _email.value.trim(), password: _password.value.trim());
       var user = User(userId: authResult.user.uid, email: _email.value.trim());
       await _firsestoreService.addUser(user);
+      _user.sink.add(user);
     } catch (error) {
       print(error);
     }
+  }
+
+  loginEmail() async {
+    try {
+      AuthResult authResult = await _auth.signInWithEmailAndPassword(
+          email: _email.value.trim(), password: _password.value.trim());
+      var user = await _firsestoreService.fetchUser(authResult.user.uid);
+      _user.sink.add(user);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<bool> isLoggedIn() async {
+    var firebaseUser = await _auth.currentUser();
+    if (firebaseUser == null) return false;
+
+    var user = await _firsestoreService.fetchUser(firebaseUser.uid);
+    if (user == null) return false;
+
+    _user.sink.add(user);
+    return true;
   }
 }

@@ -10,7 +10,21 @@ import 'dart:io';
 import 'package:fluttershake/src/widgets/textfield.dart';
 import 'package:provider/provider.dart';
 
-class Signup extends StatelessWidget {
+class Signup extends StatefulWidget {
+  @override
+  _SignupState createState() => _SignupState();
+}
+
+class _SignupState extends State<Signup> {
+
+  @override
+  void initState() {
+    final authBloc = Provider.of<AuthBloc>(context, listen: false);
+    authBloc.user.listen((user){
+      if(user!=null)Navigator.pushReplacementNamed(context,'/landing');
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final authBloc = Provider.of<AuthBloc>(context);
@@ -24,6 +38,7 @@ class Signup extends StatelessWidget {
       );
     }
   }
+
   Widget pageBody(BuildContext context,AuthBloc authBloc){
     return ListView(
       padding: EdgeInsets.all(0.0),
