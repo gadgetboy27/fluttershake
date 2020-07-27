@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttershake/src/blocs/auth_bloc.dart';
 import 'package:fluttershake/src/screens/login.dart';
 import 'package:fluttershake/src/routes.dart';
+import 'package:fluttershake/src/styles/colors.dart';
+import 'package:fluttershake/src/styles/text.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'screens/landing.dart';
@@ -41,7 +43,13 @@ class PlatformApp extends StatelessWidget {
       return CupertinoApp(
           home: (isLoggedIn==null)?loadingScreen(true):(isLoggedIn==true)?Landing():Login(),
           onGenerateRoute: Routes.cupertinoRoutes,
-          theme: CupertinoThemeData(scaffoldBackgroundColor: Colors.white));
+          theme: CupertinoThemeData(
+            primaryColor: AppColors.straw,
+            scaffoldBackgroundColor: Colors.white,
+            textTheme: CupertinoTextThemeData(tabLabelTextStyle: TextStyles.suggestion
+            )
+           )
+          );
     } else {
       return MaterialApp(
           home: (isLoggedIn==null)?loadingScreen(false):(isLoggedIn==true)?Landing():Login(),
