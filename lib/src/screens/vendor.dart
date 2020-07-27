@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttershake/src/styles/tabbar.dart';
+import 'package:fluttershake/src/widgets/orders.dart';
+import 'package:fluttershake/src/widgets/products.dart';
+import 'package:fluttershake/src/widgets/profile.dart';
 import 'package:fluttershake/src/widgets/vendor_scaffold.dart';
-import 'dart:io';
 import 'package:fluttershake/src/widgets/navbar.dart';
+import 'dart:io';
 
 class Vendor extends StatelessWidget {
   @override
@@ -21,10 +25,36 @@ class Vendor extends StatelessWidget {
             body: VendorScaffold.cupertinoTabScaffold),
       );
     } else {
-      return Center(
-          child: Scaffold(
-        body: Text('Material'),
-      ));
+      return DefaultTabController( 
+        length: 3,
+        child: Scaffold(
+          body:NestedScrollView(
+            headerSliverBuilder: (BuildContext context,bool innerBoxIsScrolled){
+              return <Widget>[
+                AppNavBar.materialNavBar(title:'Vendor Name', tabBar:vendorTabBar)
+            ];
+          },
+          body:TabBarView(children: <Widget>[
+            Products(),
+            Orders(),
+            Profile(),
+          ],)
+         )
+        ),
+      );
     }
+  }
+
+  static TabBar get vendorTabBar{
+    return TabBar(
+      unselectedLabelColor: TabBarStyles.unselectedLabelColor,
+      labelColor: TabBarStyles.labelColor,
+      indicatorColor: TabBarStyles.indicatorColor,
+      tabs:<Widget>[
+      Tab(icon: Icon(Icons.list)),
+      Tab(icon: Icon(Icons.shopping_cart)),
+      Tab(icon: Icon(Icons.person)),
+    ],
+   );
   }
 }
