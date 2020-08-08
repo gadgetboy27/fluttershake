@@ -87,4 +87,10 @@ class AuthBloc {
     _user.sink.add(user);
     return true;
   }
+
+  logout() async {
+    await _auth.signOut();
+    _user.sink.add(null);
+  }
+  
 }
