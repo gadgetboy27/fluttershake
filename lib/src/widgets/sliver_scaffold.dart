@@ -23,7 +23,7 @@ abstract class AppSliverScaffold {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             AppNavBar.materialNavBar(
-              title: navTitle,
+              title: navTitle,pinned:false,
             )
           ];
         },
