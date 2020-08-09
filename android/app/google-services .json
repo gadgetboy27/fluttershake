@@ -29,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAyVXKXrAobdiimllOKqLG9YtoZpmvmMNo"
+          "current_key": "AIzaSyBViRNq__g-5Wcnq9lVIndyRIGPWcisiyw"
         }
       ],
       "services": {
@@ -38,6 +38,13 @@
             {
               "client_id": "410815621798-07pkrppri9phf8oog285aje8or8ospnj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "410815621798-c9o8474rgi4casee6cdr5ti5o07jl8gk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.henry.fluttershake"
+              }
             }
           ]
         }
