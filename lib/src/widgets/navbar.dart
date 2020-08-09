@@ -5,7 +5,7 @@ import 'package:fluttershake/src/styles/text.dart';
 
 abstract class AppNavBar {
   static CupertinoSliverNavigationBar cupertinoNavBar(
-      {String title, BuildContext context}) {
+      {String title}) {
     return CupertinoSliverNavigationBar(
       largeTitle: Text(title, style: TextStyles.navTitle),
       backgroundColor: Colors.transparent,
@@ -14,7 +14,7 @@ abstract class AppNavBar {
   }
 
   static SliverAppBar materialNavBar(
-      {@required String title, @required TabBar tabBar}) {
+      {@required String title, TabBar tabBar}) {
     return SliverAppBar(
         title: Text(title,style:TextStyles.navTitleMaterial),
         backgroundColor: AppColors.darkblue,

@@ -61,7 +61,7 @@ class _VendorState extends State<Vendor> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 AppNavBar.cupertinoNavBar(
-                    title: 'Vendor Name', context: context),
+                    title: 'Vendor Name'),
               ];
             },
             body: VendorScaffold.cupertinoTabScaffold),

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttershake/src/blocs/auth_bloc.dart';
 import 'dart:io';
-
 import 'package:provider/provider.dart';
 
 class Profile extends StatelessWidget {

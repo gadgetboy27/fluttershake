@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttershake/src/blocs/auth_bloc.dart';
 import 'package:fluttershake/src/styles/base.dart';
 import 'package:fluttershake/src/styles/text.dart';
+import 'package:fluttershake/src/widgets/alerts.dart';
 import 'package:fluttershake/src/widgets/button.dart';
 import 'package:fluttershake/src/widgets/social_button.dart';
 import 'package:fluttershake/src/widgets/textfield.dart';
@@ -14,6 +14,7 @@ import 'dart:io';
 
 class Login extends StatefulWidget {
   StreamSubscription _userSubscription;
+  StreamSubscription _errorMessageSubscription;
 
   @override
   _LoginState createState() => _LoginState();
@@ -26,12 +27,20 @@ class _LoginState extends State<Login> {
     widget._userSubscription = authBloc.user.listen((user) {
       if (user != null) Navigator.pushReplacementNamed(context, '/landing');
     });
+    widget._errorMessageSubscription =
+        authBloc.errorMessage.listen((errorMessage) {
+      if (errorMessage != '') {
+        AppAlerts.showErrorDialog(Platform.isIOS,context, errorMessage)
+            .then((_) => authBloc.clearErrorMessage());
+      }
+    });
     super.initState();
   }
 
   @override
   void dispose() {
     widget._userSubscription.cancel();
+    widget._errorMessageSubscription.cancel();
     super.dispose();
   }
 

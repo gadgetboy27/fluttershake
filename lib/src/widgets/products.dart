@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttershake/src/styles/colors.dart';
 
 class Products extends StatelessWidget {
   @override
@@ -11,6 +11,11 @@ class Products extends StatelessWidget {
     } else {
       return Scaffold(
         body:pageBody(),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.red,
+          child: Icon(Icons.add),
+          onPressed: ()=>Navigator.of(context).pushNamed('/editproduct'),
+        ),
       );
     }
   }
