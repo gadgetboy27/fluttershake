@@ -39,6 +39,11 @@ abstract class TextStyles {
         textStyle: TextStyle(color: AppColors.darkgray, fontSize: 16.0));
   }
 
+  static TextStyle get picker {
+    return GoogleFonts.roboto(
+        textStyle: TextStyle(color: AppColors.darkgray, fontSize: 56.0));
+  }
+
   static TextStyle get suggestion {
     return GoogleFonts.roboto(
         textStyle: TextStyle(color: AppColors.lightgray, fontSize: 16.0));

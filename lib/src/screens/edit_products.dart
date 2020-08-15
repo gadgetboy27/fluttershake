@@ -28,7 +28,7 @@ class _EditProductState extends State<EditProduct> {
 
   Widget pageBody(bool isIOS) {
     List<String> items = List<String>();
-    items.add('Pounds');
+    items.add('Single');
     items.add('Kilograms');
     return ListView(
       children: <Widget>[
