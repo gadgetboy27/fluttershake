@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'dart:io';
+import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,26 +10,24 @@ import 'package:fluttershake/src/styles/text.dart';
 import 'package:fluttershake/src/widgets/alerts.dart';
 import 'package:fluttershake/src/widgets/button.dart';
 import 'package:fluttershake/src/widgets/social_button.dart';
-import 'dart:io';
 import 'package:fluttershake/src/widgets/textfield.dart';
-import 'package:provider/provider.dart';
+
 
 class Signup extends StatefulWidget {
-  StreamSubscription _userSubscription;
-  StreamSubscription _errorMessageSubscription;
   @override
   _SignupState createState() => _SignupState();
 }
 
 class _SignupState extends State<Signup> {
-
+  StreamSubscription _userSubscription;
+  StreamSubscription _errorMessageSubscription;
   @override
   void initState() {
     final authBloc = Provider.of<AuthBloc>(context, listen: false);
-    widget._userSubscription= authBloc.user.listen((user){
+    _userSubscription= authBloc.user.listen((user){
       if(user!=null)Navigator.pushReplacementNamed(context,'/landing');
     });
-    widget._errorMessageSubscription =
+    _errorMessageSubscription =
         authBloc.errorMessage.listen((errorMessage) {
       if (errorMessage != '') {
         AppAlerts.showErrorDialog(Platform.isIOS,context, errorMessage)
@@ -40,8 +39,8 @@ class _SignupState extends State<Signup> {
 
    @override
   void dispose() {
-    widget._userSubscription.cancel();
-    widget._errorMessageSubscription.cancel();
+    _userSubscription.cancel();
+    _errorMessageSubscription.cancel();
     super.dispose();
   }
 

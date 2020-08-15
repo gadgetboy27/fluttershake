@@ -5,11 +5,12 @@ import 'package:fluttershake/src/styles/text.dart';
 
 abstract class AppNavBar {
   static CupertinoSliverNavigationBar cupertinoNavBar(
-      {String title}) {
+      {String title,@required BuildContext context}) {
     return CupertinoSliverNavigationBar(
       largeTitle: Text(title, style: TextStyles.navTitle),
       backgroundColor: Colors.transparent,
       border: null,
+      leading: GestureDetector(child: Icon(CupertinoIcons.back,color: AppColors.darkblue),onTap: ()=>Navigator.of(context).pop(),),
     );
   }
 
