@@ -4,6 +4,7 @@ import 'package:fluttershake/src/blocs/auth_bloc.dart';
 import 'package:fluttershake/src/blocs/product_bloc.dart';
 import 'package:fluttershake/src/screens/login.dart';
 import 'package:fluttershake/src/routes.dart';
+import 'package:fluttershake/src/services/firestore_service.dart';
 import 'package:fluttershake/src/styles/colors.dart';
 import 'package:fluttershake/src/styles/text.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ import 'screens/landing.dart';
 
 final authBloc = AuthBloc();
 final productBloc = ProductBloc();
+final firestoreService = FirsestoreService();
 
 class App extends StatefulWidget {
   @override
@@ -24,8 +26,10 @@ class _AppState extends State<App> {
     return MultiProvider(providers: [
       Provider(create: (context) => authBloc),
       Provider(create: (context) => productBloc),
-      FutureProvider(create: (context) => authBloc.isLoggedIn())
-    ], child: PlatformApp());
+      FutureProvider(create: (context) => authBloc.isLoggedIn()),
+      StreamProvider(create: (context) => firestoreService.fetchUnitTypes())
+    ], 
+    child: PlatformApp());
   }
 
   @override

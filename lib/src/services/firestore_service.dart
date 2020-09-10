@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttershake/src/models/product.dart';
 import 'package:fluttershake/src/models/user.dart';
 
 class FirsestoreService {
@@ -10,5 +11,18 @@ class FirsestoreService {
 
   Future<User> fetchUser(String userId){
     return _db.collection('users').document(userId).get().then((snapshot)=>User.fromFirestore(snapshot.data));
+  }
+
+  Stream<List<String>>fetchUnitTypes(){
+    return _db.collection('types').document('units').snapshots()
+            .map((snapshot)=>snapshot.data['production']
+            .map<String>((type) => type.toString()).toList());
+  }
+
+  Future<void> addProduct(Product product) {
+    return _db
+    .collection('products')
+    .document(product.productId)
+    .setData(product.toMap());
   }
 }

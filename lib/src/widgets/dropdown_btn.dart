@@ -12,12 +12,16 @@ class AppDropdownButton extends StatelessWidget {
   final String hintText;
   final IconData materialIcon;
   final IconData cupertinoIcon;
+  final String value;
+  final Function(String) onChanged;
 
   AppDropdownButton(
       {@required this.items,
       @required this.hintText,
       this.materialIcon,
-      this.cupertinoIcon});
+      this.cupertinoIcon, 
+      this.value, 
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,8 @@ class AppDropdownButton extends StatelessWidget {
               Expanded(
                 child: Center(
                     child: GestureDetector(
-                  child: Text(hintText, style: TextStyles.suggestion),
+                  child:(value==null)?Text(hintText, style: TextStyles.suggestion)
+                  :Text(value, style: TextStyles.body),
                   onTap: () {
                     showCupertinoModalPopup(
                         context: context,
@@ -72,7 +77,7 @@ class AppDropdownButton extends StatelessWidget {
                 child: Center(
                   child: DropdownButton<String>(
                     items: buildMaterialItems(items),
-                    value: null,
+                    value: value,
                     hint: Text(
                       hintText,
                       style: TextStyles.suggestion,
@@ -80,7 +85,7 @@ class AppDropdownButton extends StatelessWidget {
                     style: TextStyles.picker,
                     underline: Container(),
                     iconEnabledColor: AppColors.straw,
-                    onChanged: (value) {},
+                    onChanged: (value)=>onChanged(value),
                   ),
                 ),
               ),
@@ -125,7 +130,7 @@ class AppDropdownButton extends StatelessWidget {
             itemExtent: 45.0,
             children: buildCupertinoItems(items),
             diameterRatio: 1.0,
-            onSelectedItemChanged: (int value) {},
+            onSelectedItemChanged: (int index) =>onChanged(items[index]),
           )),
     );
   }

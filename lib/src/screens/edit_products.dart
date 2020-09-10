@@ -19,20 +19,22 @@ class EditProduct extends StatefulWidget {
 class _EditProductState extends State<EditProduct> {
   @override
   Widget build(BuildContext context) {
-    var productBloc =Provider.of<ProductBloc>(context);
+    var productBloc = Provider.of<ProductBloc>(context);
     if (Platform.isIOS) {
       return AppSliverScaffold.cupertinoSliverScaffold(
-          navTitle: '', pageBody: pageBody(true,productBloc), context: context);
+          navTitle: '',
+          pageBody: pageBody(true, productBloc, context),
+          context: context);
     } else {
       return AppSliverScaffold.materialSliverScaffold(
-          navTitle: '', pageBody: pageBody(false,productBloc), context: context);
+          navTitle: '',
+          pageBody: pageBody(false, productBloc, context),
+          context: context);
     }
   }
 
-  Widget pageBody(bool isIOS,ProductBloc productBloc) {
-    List<String> items = List<String>();
-    items.add('Single');
-    items.add('Kilograms');
+  Widget pageBody(bool isIOS, ProductBloc productBloc, BuildContext context) {
+    var items = Provider.of<List<String>>(context);
     return ListView(
       children: <Widget>[
         Text(
@@ -47,54 +49,66 @@ class _EditProductState extends State<EditProduct> {
           ),
         ),
         StreamBuilder<String>(
-          stream: productBloc.productName,
+            stream: productBloc.productName,
+            builder: (context, snapshot) {
+              return AppTextField(
+                hintText: 'Product Name',
+                cupertinoIcon: FontAwesomeIcons.shoppingBasket,
+                materialIcon: FontAwesomeIcons.shoppingBasket,
+                isIOS: isIOS,
+                errorText: snapshot.error,
+                onChanged: productBloc.changeProductName,
+              );
+            }),
+        StreamBuilder<String>(
+          stream: productBloc.unitType,
           builder: (context, snapshot) {
-            return AppTextField(
-              hintText: 'Product Name',
-              cupertinoIcon: FontAwesomeIcons.shoppingBasket,
-              materialIcon: FontAwesomeIcons.shoppingBasket,
-              isIOS: isIOS,
-              errorText: snapshot.error,
-              onChanged: productBloc.changeProductName,
+            return AppDropdownButton(
+              hintText: 'Unit Type',
+              items: items,
+              value: snapshot.data,
+              onChanged: productBloc.changeUnitType,
+              materialIcon: FontAwesomeIcons.balanceScale,
+              cupertinoIcon: FontAwesomeIcons.balanceScale,
             );
           }
-        ),
-        AppDropdownButton(
-            items: items,
-            hintText: 'Unit Type',
-            materialIcon: FontAwesomeIcons.balanceScale,
-            cupertinoIcon: FontAwesomeIcons.balanceScale,
         ),
         StreamBuilder<double>(
-          stream: productBloc.unitPrice,
-          builder: (context, snapshot) {
-            return AppTextField(
-              hintText: 'Unit Price',
-              cupertinoIcon: FontAwesomeIcons.tag,
-              materialIcon: FontAwesomeIcons.tag,
-              isIOS: isIOS,
-              textInputType: TextInputType.number,
-              errorText: snapshot.error,
-              onChanged: productBloc.changeUnitPrice,
-            );
-          }
-        ),
+            stream: productBloc.unitPrice,
+            builder: (context, snapshot) {
+              return AppTextField(
+                hintText: 'Unit Price',
+                cupertinoIcon: FontAwesomeIcons.tag,
+                materialIcon: FontAwesomeIcons.tag,
+                isIOS: isIOS,
+                textInputType: TextInputType.number,
+                errorText: snapshot.error,
+                onChanged: productBloc.changeUnitPrice,
+              );
+            }),
         StreamBuilder<int>(
-          stream: productBloc.availableUnits,
+            stream: productBloc.availableUnits,
+            builder: (context, snapshot) {
+              return AppTextField(
+                hintText: 'Available Units',
+                cupertinoIcon: FontAwesomeIcons.cubes,
+                materialIcon: FontAwesomeIcons.cubes,
+                isIOS: isIOS,
+                textInputType: TextInputType.number,
+                errorText: snapshot.error,
+                onChanged: productBloc.changeAvailablUnits,
+              );
+            }),
+        AppButton(buttonType: ButtonType.LightGray, buttonText: 'Add Image'),
+        StreamBuilder<bool>(
+          stream: productBloc.isValid,
           builder: (context, snapshot) {
-            return AppTextField(
-              hintText: 'Available Units',
-              cupertinoIcon: FontAwesomeIcons.cubes,
-              materialIcon: FontAwesomeIcons.cubes,
-              isIOS: isIOS,
-              textInputType: TextInputType.number,
-              errorText: snapshot.error,
-              onChanged: productBloc.changeAvailablUnits,
-            );
+            return AppButton(
+              buttonType: (snapshot.data==true)?ButtonType.DarkBlue:ButtonType.Disabled, 
+              buttonText: 'Save Product',
+              );
           }
         ),
-        AppButton(buttonType: ButtonType.LightGray, buttonText: 'Add Image'),
-        AppButton(buttonType: ButtonType.DarkBlue, buttonText: 'Save Product'),
       ],
     );
   }
