@@ -40,7 +40,7 @@ class ProductBloc {
     _vendorId.close();
   }
 
-  saveProduct() {
+  Future<void> saveProduct() async {
     var product = Product(
       approved: true,
       availableUnits: int.parse(_availableUnits.value),
@@ -50,7 +50,10 @@ class ProductBloc {
       unitType: _unitType.value,
       vendorId: _vendorId.value,
     );
-    return db.addProduct(product);
+    return db
+        .addProduct(product)
+        .then((value) => print('Product Saved'))
+        .catchError((error) => print(error));
   }
 
   //Validator
