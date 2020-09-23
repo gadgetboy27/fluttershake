@@ -1,8 +1,8 @@
-class User {
+class ApplicationUser {
   final String userId;
   final String email;
 
-  User({
+  ApplicationUser({
     this.email,
     this.userId,
   });
@@ -14,7 +14,7 @@ class User {
     };
   }
 
-  User.fromFirestore(Map<String, dynamic> firestore)
+  ApplicationUser.fromFirestore(Map<String, dynamic> firestore)
       : userId = firestore['userId'],
         email = firestore['email'];
 }

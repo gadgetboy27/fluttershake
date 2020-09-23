@@ -1,33 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttershake/src/models/product.dart';
-import 'package:fluttershake/src/models/user.dart';
+import 'package:fluttershake/src/models/application_user.dart';
 
 class FirsestoreService {
-  Firestore _db = Firestore.instance;
+  FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<void> addUser(User user) {
-    return _db.collection('users').document(user.userId).setData(user.toMap());
+  Future<void> addUser(ApplicationUser user) {
+    return _db.collection('users').doc(user.userId).set(user.toMap());
   }
 
-  Future<User> fetchUser(String userId) {
+  Future<ApplicationUser> fetchUser(String userId) {
     return _db
         .collection('users')
-        .document(userId)
+        .doc(userId)
         .get()
-        .then((snapshot) => User.fromFirestore(snapshot.data));
+        .then((snapshot) => ApplicationUser.fromFirestore(snapshot.data()));
   }
 
   Future<Product> fetchProduct(String productId) {
     return _db
         .collection('products')
-        .document(productId)
+        .doc(productId)
         .get()
-        .then((snapshot) => Product.fromFirestore(snapshot.data));
+        .then((snapshot) => Product.fromFirestore(snapshot.data()));
   }
 
   Stream<List<String>> fetchUnitTypes() {
-    return _db.collection('types').document('units').snapshots().map(
-        (snapshot) => snapshot.data['production']
+    return _db.collection('types').doc('units').snapshots().map(
+        (snapshot) => snapshot.data()['production']
             .map<String>((type) => type.toString())
             .toList());
   }
@@ -35,8 +35,8 @@ class FirsestoreService {
   Future<void> setProduct(Product product) {
     return _db
         .collection('products')
-        .document(product.productId)
-        .setData(product.toMap());
+        .doc(product.productId)
+        .set(product.toMap());
   }
 
   Stream<List<Product>> fetchProductByVendorId(String vendorId) {
@@ -44,9 +44,9 @@ class FirsestoreService {
         .collection('products')
         .where('vendorId', isEqualTo: vendorId)
         .snapshots()
-        .map((query) => query.documents)
+        .map((query) => query.docs)
         .map((snapshot) => snapshot
-            .map((document) => Product.fromFirestore(document.data))
+            .map((document) => Product.fromFirestore(document.data()))
             .toList());
   }
 }
